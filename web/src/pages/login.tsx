@@ -57,12 +57,7 @@ const Login: React.FC<loginProps> = ({}) => {
 								</Link>
 							</NextLink>
 						</Flex>
-						<Button
-							mt={4}
-							type="submit"
-							isLoading={isSubmitting}
-							colorScheme="teal"
-						>
+						<Button mt={4} type="submit" isLoading={isSubmitting}>
 							Login
 						</Button>
 					</Form>

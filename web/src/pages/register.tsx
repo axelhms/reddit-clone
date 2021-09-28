@@ -53,12 +53,7 @@ const Register: React.FC<registerProps> = ({}) => {
 								type="password"
 							/>
 						</Box>
-						<Button
-							mt={4}
-							type="submit"
-							isLoading={isSubmitting}
-							colorScheme="teal"
-						>
+						<Button mt={4} type="submit" isLoading={isSubmitting}>
 							Register
 						</Button>
 					</Form>

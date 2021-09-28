@@ -6,6 +6,8 @@ import { usePostsQuery } from '../generated/graphql';
 import NextLink from 'next/link';
 import { Box, Flex, Heading, Link, Stack, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
+import { AddIcon } from '@chakra-ui/icons';
+import { useColorMode } from '@chakra-ui/react';
 
 const Index = () => {
 	const [{ data, fetching }] = usePostsQuery({
@@ -13,6 +15,7 @@ const Index = () => {
 			limit: 10,
 		},
 	});
+	const { colorMode } = useColorMode();
 
 	if (!fetching && !data) {
 		return <div>Query failed.</div>;
@@ -23,16 +26,30 @@ const Index = () => {
 			<Flex align="center">
 				<Heading>Red Hit</Heading>
 				<NextLink href="create-post">
-					<Link ml="auto">Create post</Link>
+					<Button ml="auto">
+						<AddIcon />
+						<Link ml={2} style={{ textDecoration: 'none' }}>
+							Create post
+						</Link>
+					</Button>
 				</NextLink>
 			</Flex>
 
 			{!data && fetching ? (
 				<Box mt={4}>Loading...</Box>
 			) : (
-				<Stack mt={4} spacing={8}>
+				<Stack mt={4} spacing={4}>
 					{data!.posts.map((post) => (
-						<Box key={post.id} p={5} shadow="md" borderWidth="1px">
+						<Box
+							key={post.id}
+							p={5}
+							shadow="md"
+							borderWidth="1px"
+							borderRadius="xl"
+							bgColor={
+								colorMode === 'light' ? 'white' : '#2c354a'
+							}
+						>
 							<Heading fontSize="xl">{post.title}</Heading>
 							<Text mt={4}>{post.textSnippet}</Text>
 						</Box>

@@ -1,14 +1,16 @@
-import { Box, Button, Flex, Link } from '@chakra-ui/react';
+import { Box, Button, Flex, Link, useColorMode } from '@chakra-ui/react';
 import React from 'react';
 import NextLink from 'next/link';
 import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 import { isServer } from '../../utils/isServer';
+import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 
 interface NavbarProps {}
 
 export const Navbar: React.FC<NavbarProps> = ({}) => {
 	const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
 	const [{ data, fetching }] = useMeQuery({ pause: isServer() });
+	const { colorMode, toggleColorMode } = useColorMode();
 	let body = null;
 
 	if (fetching) {
@@ -16,28 +18,28 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 	} else if (!data?.me) {
 		body = (
 			<>
-				<NextLink href="/login">
-					<Link color="white" mr={2}>
-						Login
-					</Link>
-				</NextLink>
-				<NextLink href="/register">
-					<Link color="white" mr={2}>
-						Register
-					</Link>
-				</NextLink>
+				<Button>
+					<NextLink href="/login">
+						<Link>Login</Link>
+					</NextLink>
+				</Button>
+				<Button ml={4}>
+					<NextLink href="/register">
+						<Link>Register</Link>
+					</NextLink>
+				</Button>
 			</>
 		);
 	} else {
 		body = (
 			<Flex>
-				<Box mr={2}>{data.me.username}</Box>
+				<Box m={'auto'}>{data.me.username}</Box>
 				<Button
 					onClick={() => {
 						logout();
 					}}
 					isLoading={logoutFetching}
-					variant="link"
+					ml={4}
 				>
 					Logout
 				</Button>
@@ -46,8 +48,20 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 	}
 
 	return (
-		<Flex zIndex={1} position="sticky" top={0} bg="tomato" p={4}>
+		<Flex
+			zIndex={1}
+			position="sticky"
+			top={0}
+			p={4}
+			borderBottom="2px"
+			justify="center"
+			bgColor={colorMode === 'light' ? 'white' : '#1A202C'}
+			color={colorMode === 'light' ? '#1A202C' : 'white'}
+		>
 			<Box ml={'auto'}>{body}</Box>
+			<Button onClick={() => toggleColorMode()} ml={4}>
+				{colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
+			</Button>
 		</Flex>
 	);
 };

@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Flex, useColorMode } from '@chakra-ui/react';
 import React from 'react';
 
 export type WrapperVariant = 'small' | 'regular';
@@ -11,15 +11,23 @@ export const Wrapper: React.FC<WrapperProps> = ({
 	children,
 	variant = 'regular',
 }) => {
+	const { colorMode } = useColorMode();
+
 	return (
-		<Box
-			mt={8}
-			mx="auto"
-			maxWidth={variant === 'regular' ? '800px' : '400px'}
-			w="100%"
+		<Flex
+			height="100%"
+			bgColor={colorMode === 'light' ? 'white' : '#1A202C'}
+			color={colorMode === 'light' ? '#1A202C' : 'white'}
 		>
-			{children}
-		</Box>
+			<Box
+				pt={8}
+				mx="auto"
+				maxWidth={variant === 'regular' ? '1200px' : '800px'}
+				w="100%"
+			>
+				{children}
+			</Box>
+		</Flex>
 	);
 };
 

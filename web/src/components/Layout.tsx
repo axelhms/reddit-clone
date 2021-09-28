@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/layout';
 import React from 'react';
 import Navbar from './Navbar';
 import Wrapper, { WrapperVariant } from './Wrapper';
@@ -8,10 +9,10 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children, variant }) => {
 	return (
-		<>
+		<Flex h="100vh" flexDirection="column">
 			<Navbar />
 			<Wrapper variant={variant}>{children}</Wrapper>
-		</>
+		</Flex>
 	);
 };
 

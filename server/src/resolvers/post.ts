@@ -29,7 +29,7 @@ class PostInput {
 export class PostResolver {
 	@FieldResolver(() => String)
 	textSnippet(@Root() root: Post) {
-		return root.text.slice(0, 200).concat('...');
+		return root.text.slice(0, 200);
 	}
 
 	@Query(() => [Post])
