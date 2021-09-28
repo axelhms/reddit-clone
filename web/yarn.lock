@@ -1147,6 +1147,16 @@
     ts-node "^9"
     tslib "^2"
 
+"@fontsource/open-sans@^4.5.1":
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-4.5.1.tgz#3ad91ff0ee29d6dece501248840d2dd4f63e94a5"
+  integrity sha512-Zvse9PG3XU+gfa44i4ENXvZi28X0RTtuc/b1v4AaqrSpSf2OALN2QrBf91BOC5gXU1Y6xW/S0To5wz8EraLPlQ==
+
+"@fontsource/raleway@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/raleway/-/raleway-4.5.0.tgz#d5c464abe655d2e2cb134c503db455b7af6c03a6"
+  integrity sha512-Rzj90wbZQnNzazqzoiu5HzMEMdqMJLUVFOo699sinTXrZRm1aB5iX2HTiK2VlPnH4M6u8yYnJ7CebOyamfWlqw==
+
 "@graphql-codegen/cli@2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-2.2.0.tgz#84a909cb46f009cafc59aa719b816494b0ca222b"
