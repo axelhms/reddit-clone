@@ -1,5 +1,5 @@
 import { withUrqlClient } from 'next-urql';
-import React from 'react';
+import React, { useState } from 'react';
 import { createUrqlClient } from '../../utils/createUrqlClient';
 import Layout from '../components/Layout';
 import { usePostsQuery } from '../generated/graphql';
@@ -10,11 +10,17 @@ import { AddIcon } from '@chakra-ui/icons';
 import { useColorMode } from '@chakra-ui/react';
 
 const Index = () => {
+	const [variables, setVariables] = useState({
+		limit: 33,
+		cursor: null as null | string,
+	});
+
 	const [{ data, fetching }] = usePostsQuery({
 		variables: {
 			limit: 10,
 		},
 	});
+
 	const { colorMode } = useColorMode();
 
 	if (!fetching && !data) {
@@ -24,7 +30,6 @@ const Index = () => {
 	return (
 		<Layout>
 			<Flex align="center">
-				<Heading>Red Hit</Heading>
 				<NextLink href="create-post">
 					<Button ml="auto">
 						<AddIcon />
@@ -39,7 +44,7 @@ const Index = () => {
 				<Box mt={4}>Loading...</Box>
 			) : (
 				<Stack mt={4} spacing={4}>
-					{data!.posts.map((post) => (
+					{data!.posts.posts.map((post) => (
 						<Box
 							key={post.id}
 							p={5}
@@ -57,9 +62,21 @@ const Index = () => {
 				</Stack>
 			)}
 
-			{data ? (
+			{data && data.posts.hasMore ? (
 				<Flex>
-					<Button isLoading={fetching} m="auto" my={4}>
+					<Button
+						onClick={() => {
+							setVariables({
+								limit: variables.limit,
+								cursor: data.posts.posts[
+									data.posts.posts.length - 1
+								].createdAt,
+							});
+						}}
+						isLoading={fetching}
+						m="auto"
+						my={4}
+					>
 						Load more
 					</Button>
 				</Flex>

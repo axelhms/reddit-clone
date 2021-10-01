@@ -1,4 +1,11 @@
-import { Box, Button, Flex, Link, useColorMode } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	Flex,
+	Heading,
+	Link,
+	useColorMode,
+} from '@chakra-ui/react';
 import React from 'react';
 import NextLink from 'next/link';
 import { useLogoutMutation, useMeQuery } from '../generated/graphql';
@@ -58,6 +65,12 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 			bgColor={colorMode === 'light' ? 'white' : '#1A202C'}
 			color={colorMode === 'light' ? '#1A202C' : 'white'}
 		>
+			<NextLink href="/">
+				<Link ml={2} style={{ textDecoration: 'none' }}>
+					<Heading>Red Hit</Heading>
+				</Link>
+			</NextLink>
+
 			<Box ml={'auto'}>{body}</Box>
 			<Button onClick={() => toggleColorMode()} ml={4}>
 				{colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
