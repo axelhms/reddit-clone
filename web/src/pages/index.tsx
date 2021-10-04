@@ -11,13 +11,13 @@ import { useColorMode } from '@chakra-ui/react';
 
 const Index = () => {
 	const [variables, setVariables] = useState({
-		limit: 33,
+		limit: 15,
 		cursor: null as null | string,
 	});
 
 	const [{ data, fetching }] = usePostsQuery({
 		variables: {
-			limit: 10,
+			limit: 15,
 		},
 	});
 
@@ -55,7 +55,12 @@ const Index = () => {
 								colorMode === 'light' ? 'white' : '#2c354a'
 							}
 						>
-							<Heading fontSize="xl">{post.title}</Heading>
+							<Flex>
+								<Heading fontSize="xl">{post.title}</Heading>
+								<Text ml={2}>
+									posted by {post.creator.username}
+								</Text>
+							</Flex>
 							<Text mt={4}>{post.textSnippet}</Text>
 						</Box>
 					))}
