@@ -16,6 +16,7 @@ import {
 import { MyContext } from '../types';
 import { isAuth } from '../middleware/isAuth';
 import { getConnection } from 'typeorm';
+import { Upvote } from '../entities/Upvote';
 
 @InputType()
 class PostInput {
@@ -58,19 +59,19 @@ export class PostResolver {
 
 		const posts = await getConnection().query(
 			`
-		SELECT p.*, 
-		json_build_object(
-			'id', u.id,
-			'username', u.username,
-			'email', u.email,
-			'createdAt', u."createdAt",
-			'updatedAt', u."updatedAt"
-			) creator
-		FROM post p
-		INNER JOIN public.user u ON p."creatorId" = u.id
-		${cursor ? `WHERE p."createdAt" < $2` : ''}
-		ORDER BY p."createdAt" DESC
-		LIMIT $1
+			SELECT p.*, 
+			json_build_object(
+				'id', u.id,
+				'username', u.username,
+				'email', u.email,
+				'createdAt', u."createdAt",
+				'updatedAt', u."updatedAt"
+				) creator
+			FROM post p
+			INNER JOIN public.user u ON p."creatorId" = u.id
+			${cursor ? `WHERE p."createdAt" < $2` : ''}
+			ORDER BY p."createdAt" DESC
+			LIMIT $1
 		`,
 			replacements
 		);
@@ -116,6 +117,41 @@ export class PostResolver {
 	@Mutation(() => Boolean)
 	async deletePost(@Arg('id') id: number): Promise<boolean> {
 		await Post.delete(id);
+		return true;
+	}
+
+	@Mutation(() => Boolean)
+	@UseMiddleware(isAuth)
+	async vote(
+		@Arg('postId', () => Int) postId: number,
+		@Arg('value', () => Int) value: number,
+		@Ctx() { req }: MyContext
+	) {
+		const isUpvote = value !== -1;
+		const realValue = isUpvote ? 1 : -1;
+		const { userId } = req.session;
+
+		/* 		await Upvote.insert({
+			userId,
+			postId,
+			value: realValue,
+		}); */
+
+		await getConnection().query(
+			`
+			START TRANSACTION;
+
+			INSERT INTO upvote("userId", "postId", value)
+			VALUES(${userId}, ${postId}, ${realValue});
+
+			UPDATE post p
+			SET points = points + ${realValue}
+			WHERE p.id = ${postId};
+
+			COMMIT;
+		`
+		);
+
 		return true;
 	}
 }
