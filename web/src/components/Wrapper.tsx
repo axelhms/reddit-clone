@@ -1,5 +1,6 @@
 import { Box, Flex, useColorMode } from '@chakra-ui/react';
 import React from 'react';
+import theme from '../theme';
 
 export type WrapperVariant = 'small' | 'regular';
 
@@ -15,8 +16,9 @@ export const Wrapper: React.FC<WrapperProps> = ({
 
 	return (
 		<Flex
-			bgColor={colorMode === 'light' ? 'white' : '#1A202C'}
-			color={colorMode === 'light' ? '#1A202C' : 'white'}
+			minHeight="91.1vh"
+			bgColor={colorMode === 'light' ? 'white' : 'dark'}
+			color={colorMode === 'light' ? 'dark' : 'white'}
 		>
 			<Box
 				pt={8}

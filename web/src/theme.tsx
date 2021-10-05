@@ -2,10 +2,10 @@ import { extendTheme } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
 
 const colors = {
-	lightPrimary: '#8d2a4c',
-	lightPrimaryHover: '#651e36',
-	darkPrimary: '#c93c6c',
-	darkPrimaryHover: '#a13056',
+	white: 'white',
+	dark: '#1A202C',
+	darkItem: '#2D3748',
+	blue: '#415EFF',
 };
 
 const fonts = {

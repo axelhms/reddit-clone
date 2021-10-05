@@ -55,27 +55,33 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 	}
 
 	return (
-		<Flex
-			zIndex={1}
-			position="sticky"
-			top={0}
-			p={4}
-			borderBottom="2px"
-			justify="center"
-			bgColor={colorMode === 'light' ? 'white' : '#1A202C'}
-			color={colorMode === 'light' ? '#1A202C' : 'white'}
-		>
-			<NextLink href="/">
-				<Link ml={2} style={{ textDecoration: 'none' }}>
-					<Heading>Red Hit</Heading>
-				</Link>
-			</NextLink>
+		<Box>
+			<Box
+				h="8px"
+				bgGradient="linear-gradient(135deg, rgb(87, 112, 255) 0px, rgb(255, 117, 179) 60%, rgb(255, 124, 107) 100%)"
+			></Box>
+			<Flex
+				zIndex={1}
+				position="sticky"
+				top={0}
+				p={4}
+				justify="center"
+				bgColor={colorMode === 'light' ? 'white' : 'darkItem'}
+				color={colorMode === 'light' ? 'dark' : 'white'}
+				shadow={colorMode === 'light' ? 'md' : 'none'}
+			>
+				<NextLink href="/">
+					<Link ml={2} style={{ textDecoration: 'none' }}>
+						<Heading color="blue">REDHIT</Heading>
+					</Link>
+				</NextLink>
 
-			<Box ml={'auto'}>{body}</Box>
-			<Button onClick={() => toggleColorMode()} ml={4}>
-				{colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
-			</Button>
-		</Flex>
+				<Box ml={'auto'}>{body}</Box>
+				<Button onClick={() => toggleColorMode()} ml={4}>
+					{colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
+				</Button>
+			</Flex>
+		</Box>
 	);
 };
 

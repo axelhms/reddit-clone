@@ -9,6 +9,7 @@ import { Button } from '@chakra-ui/button';
 import { AddIcon } from '@chakra-ui/icons';
 import { useColorMode } from '@chakra-ui/react';
 import UpvoteSection from '../components/UpvoteSection';
+import theme from '../theme';
 
 const Index = () => {
 	const [variables, setVariables] = useState({
@@ -49,12 +50,15 @@ const Index = () => {
 						<Flex
 							key={post.id}
 							p={5}
-							shadow="md"
-							borderWidth="1px"
 							borderRadius="xl"
+							shadow={colorMode === 'light' ? 'md' : 'none'}
 							bgColor={
-								colorMode === 'light' ? 'white' : '#2c354a'
+								colorMode === 'light' ? 'white' : 'darkItem'
 							}
+							transitionDuration="0.3s"
+							_hover={{
+								transform: 'translate(0, -5px);',
+							}}
 						>
 							<UpvoteSection post={post} />
 							<Box>
