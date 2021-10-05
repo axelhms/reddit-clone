@@ -16,6 +16,7 @@ import {
 import { MyContext } from '../types';
 import { isAuth } from '../middleware/isAuth';
 import { getConnection } from 'typeorm';
+import { Upvote } from '../entities/Upvote';
 
 @InputType()
 class PostInput {
@@ -130,26 +131,45 @@ export class PostResolver {
 		const realValue = isUpvote ? 1 : -1;
 		const { userId } = req.session;
 
-		/* 		await Upvote.insert({
-			userId,
-			postId,
-			value: realValue,
-		}); */
+		const upvote = await Upvote.findOne({ where: { postId, userId } });
 
-		await getConnection().query(
-			`
-			START TRANSACTION;
+		if (upvote && upvote.value !== realValue) {
+			await getConnection().transaction(async (trans) => {
+				await trans.query(
+					`
+					UPDATE upvote
+					SET value = $1
+					WHERE "postId" = $2 AND "userId" = $3
+				`,
+					[realValue, postId, userId]
+				);
 
-			INSERT INTO upvote("userId", "postId", value)
-			VALUES(${userId}, ${postId}, ${realValue});
+				await trans.query(
+					`
+					UPDATE post p
+					SET points = points + $1
+					WHERE p.id = $2;
+				`,
+					[realValue * 2, postId]
+				);
+			});
+		} else if (!upvote) {
+			await getConnection().transaction(async (trans) => {
+				await trans.query(
+					`
+					INSERT INTO upvote("userId", "postId", value)
+					VALUES($1, $2, $3);
+				`,
+					[userId, postId, realValue]
+				);
 
-			UPDATE post p
-			SET points = points + ${realValue}
-			WHERE p.id = ${postId};
-
-			COMMIT;
-		`
-		);
+				await trans.query(`
+					UPDATE post p
+					SET points = points + ${realValue}
+					WHERE p.id = ${postId};
+				`);
+			});
+		}
 
 		return true;
 	}
