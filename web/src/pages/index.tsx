@@ -8,6 +8,7 @@ import { Box, Flex, Heading, Link, Stack, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { AddIcon } from '@chakra-ui/icons';
 import { useColorMode } from '@chakra-ui/react';
+import UpvoteSection from '../components/UpvoteSection';
 
 const Index = () => {
 	const [variables, setVariables] = useState({
@@ -45,7 +46,7 @@ const Index = () => {
 			) : (
 				<Stack mt={4} spacing={4}>
 					{data!.posts.posts.map((post) => (
-						<Box
+						<Flex
 							key={post.id}
 							p={5}
 							shadow="md"
@@ -55,14 +56,13 @@ const Index = () => {
 								colorMode === 'light' ? 'white' : '#2c354a'
 							}
 						>
-							<Flex>
+							<UpvoteSection post={post} />
+							<Box>
 								<Heading fontSize="xl">{post.title}</Heading>
-								<Text ml={2}>
-									posted by {post.creator.username}
-								</Text>
-							</Flex>
-							<Text mt={4}>{post.textSnippet}</Text>
-						</Box>
+								<Text>posted by {post.creator.username}</Text>
+								<Text mt={4}>{post.textSnippet}</Text>
+							</Box>
+						</Flex>
 					))}
 				</Stack>
 			)}
