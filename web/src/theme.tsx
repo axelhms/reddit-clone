@@ -3,6 +3,8 @@ import { createBreakpoints } from '@chakra-ui/theme-tools';
 
 const colors = {
 	white: 'white',
+	grey: '#f2f2f2',
+	lightDark: '#424b5a',
 	dark: '#1A202C',
 	darkItem: '#2D3748',
 	blue: '#415EFF',

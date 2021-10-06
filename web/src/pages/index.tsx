@@ -89,6 +89,16 @@ const Index = () => {
 								].createdAt,
 							});
 						}}
+						color={colorMode === 'light' ? 'blue' : 'lightBlue'}
+						border="2px"
+						borderColor={
+							colorMode === 'light' ? 'blue' : 'lightBlue'
+						}
+						bgColor={colorMode === 'light' ? 'white' : 'darkItem'}
+						_hover={{
+							bgColor:
+								colorMode === 'light' ? 'grey' : 'lightDark',
+						}}
 						isLoading={fetching}
 						m="auto"
 						my={4}

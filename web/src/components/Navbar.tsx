@@ -25,14 +25,29 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 	} else if (!data?.me) {
 		body = (
 			<>
-				<Button>
+				<Button
+					color={colorMode === 'light' ? 'blue' : 'lightBlue'}
+					border="2px"
+					borderColor={colorMode === 'light' ? 'blue' : 'lightBlue'}
+					bgColor={colorMode === 'light' ? 'white' : 'darkItem'}
+					_hover={{
+						bgColor: colorMode === 'light' ? 'grey' : 'lightDark',
+					}}
+				>
 					<NextLink href="/login">
-						<Link>Login</Link>
+						<Link style={{ textDecoration: 'none' }}>Login</Link>
 					</NextLink>
 				</Button>
-				<Button ml={4}>
+				<Button
+					ml={4}
+					color="white"
+					bgColor={colorMode === 'light' ? 'blue' : 'lightBlue'}
+					_hover={{
+						bgColor: colorMode === 'light' ? 'lightBlue' : 'blue',
+					}}
+				>
 					<NextLink href="/register">
-						<Link>Register</Link>
+						<Link style={{ textDecoration: 'none' }}>Register</Link>
 					</NextLink>
 				</Button>
 			</>
@@ -40,8 +55,17 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 	} else {
 		body = (
 			<Flex>
-				<Box m={'auto'}>{data.me.username}</Box>
+				<Box m={'auto'} fontSize="xl">
+					{data.me.username}
+				</Box>
 				<Button
+					color={colorMode === 'light' ? 'blue' : 'lightBlue'}
+					border="2px"
+					borderColor={colorMode === 'light' ? 'blue' : 'lightBlue'}
+					bgColor={colorMode === 'light' ? 'white' : 'darkItem'}
+					_hover={{
+						bgColor: colorMode === 'light' ? 'grey' : 'lightDark',
+					}}
 					onClick={() => {
 						logout();
 					}}
@@ -55,15 +79,12 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 	}
 
 	return (
-		<Box>
+		<Box zIndex={1} position="sticky" top={0}>
 			<Box
 				h="8px"
 				bgGradient="linear-gradient(135deg, rgb(87, 112, 255) 0px, rgb(255, 117, 179) 60%, rgb(255, 124, 107) 100%)"
 			></Box>
 			<Flex
-				zIndex={1}
-				position="sticky"
-				top={0}
 				p={4}
 				justify="center"
 				bgColor={colorMode === 'light' ? 'white' : 'darkItem'}
