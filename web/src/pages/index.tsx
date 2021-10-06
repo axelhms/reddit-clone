@@ -9,7 +9,6 @@ import { Button } from '@chakra-ui/button';
 import { AddIcon } from '@chakra-ui/icons';
 import { useColorMode } from '@chakra-ui/react';
 import UpvoteSection from '../components/UpvoteSection';
-import theme from '../theme';
 
 const Index = () => {
 	const [variables, setVariables] = useState({
@@ -33,7 +32,15 @@ const Index = () => {
 		<Layout>
 			<Flex align="center">
 				<NextLink href="create-post">
-					<Button ml="auto">
+					<Button
+						ml="auto"
+						color="white"
+						bgColor={colorMode === 'light' ? 'blue' : 'lightBlue'}
+						_hover={{
+							bgColor:
+								colorMode === 'light' ? 'lightBlue' : 'blue',
+						}}
+					>
 						<AddIcon />
 						<Link ml={2} style={{ textDecoration: 'none' }}>
 							Create post

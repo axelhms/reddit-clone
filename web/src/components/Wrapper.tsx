@@ -1,6 +1,5 @@
 import { Box, Flex, useColorMode } from '@chakra-ui/react';
 import React from 'react';
-import theme from '../theme';
 
 export type WrapperVariant = 'small' | 'regular';
 

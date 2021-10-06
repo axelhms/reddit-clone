@@ -10,60 +10,84 @@ import { useLoginMutation } from '../generated/graphql';
 import { withUrqlClient } from 'next-urql';
 import { createUrqlClient } from '../../utils/createUrqlClient';
 import NextLink from 'next/link';
+import { useColorMode } from '@chakra-ui/react';
+import Layout from '../components/Layout';
 
 interface loginProps {}
 
 const Login: React.FC<loginProps> = ({}) => {
 	const router = useRouter();
 	const [, login] = useLoginMutation();
+	const { colorMode } = useColorMode();
 
 	return (
-		<Wrapper variant="small">
-			<Formik
-				initialValues={{ usernameOrEmail: '', password: '' }}
-				onSubmit={async (values, { setErrors }) => {
-					const response = await login(values);
+		<Layout>
+			<Wrapper variant="small">
+				<Formik
+					initialValues={{ usernameOrEmail: '', password: '' }}
+					onSubmit={async (values, { setErrors }) => {
+						const response = await login(values);
 
-					if (response.data?.login.errors) {
-						setErrors(toErrorMap(response.data.login.errors));
-					} else if (response.data?.login.user) {
-						if (typeof router.query.next === 'string') {
-							router.push(router.query.next || '/');
-						} else {
-							router.push('/');
+						if (response.data?.login.errors) {
+							setErrors(toErrorMap(response.data.login.errors));
+						} else if (response.data?.login.user) {
+							if (typeof router.query.next === 'string') {
+								router.push(router.query.next || '/');
+							} else {
+								router.push('/');
+							}
 						}
-					}
-				}}
-			>
-				{({ isSubmitting }) => (
-					<Form>
-						<InputField
-							name="usernameOrEmail"
-							label="Username or Email"
-							placeholder="Username or Email"
-						/>
-						<Box mt={4}>
+					}}
+				>
+					{({ isSubmitting }) => (
+						<Form>
 							<InputField
-								name="password"
-								label="Password"
-								placeholder="Password"
-								type="password"
+								name="usernameOrEmail"
+								label="Username or Email"
+								placeholder="Username or Email"
 							/>
-						</Box>
-						<Flex>
-							<NextLink href="/forgot-password">
-								<Link ml="auto" mt={2}>
-									Forgot your password ?
-								</Link>
-							</NextLink>
-						</Flex>
-						<Button mt={4} type="submit" isLoading={isSubmitting}>
-							Login
-						</Button>
-					</Form>
-				)}
-			</Formik>
-		</Wrapper>
+							<Box mt={4}>
+								<InputField
+									name="password"
+									label="Password"
+									placeholder="Password"
+									type="password"
+								/>
+							</Box>
+							<Flex>
+								<NextLink href="/forgot-password">
+									<Link ml="auto" mt={2}>
+										Forgot your password ?
+									</Link>
+								</NextLink>
+							</Flex>
+							<Flex>
+								<Button
+									mt={4}
+									ml="auto"
+									color="white"
+									bgColor={
+										colorMode === 'light'
+											? 'blue'
+											: 'lightBlue'
+									}
+									_hover={{
+										bgColor:
+											colorMode === 'light'
+												? 'lightBlue'
+												: 'blue',
+									}}
+									type="submit"
+									isLoading={isSubmitting}
+								>
+									Login
+								</Button>
+							</Flex>
+						</Form>
+					)}
+				</Formik>
+			</Wrapper>
+		</Layout>
 	);
 };
 

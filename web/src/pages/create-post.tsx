@@ -1,5 +1,5 @@
-import { Box } from '@chakra-ui/layout';
-import { Button } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/layout';
+import { Button, useColorMode } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { withUrqlClient } from 'next-urql';
 import { useRouter } from 'next/router';
@@ -14,6 +14,7 @@ const CreatePost: React.FC<{}> = ({}) => {
 	const router = useRouter();
 	useIsAuth();
 	const [, createPost] = useCreatePostMutation();
+	const { colorMode } = useColorMode();
 
 	return (
 		<Layout variant="regular">
@@ -42,9 +43,26 @@ const CreatePost: React.FC<{}> = ({}) => {
 								textarea
 							/>
 						</Box>
-						<Button mt={4} type="submit" isLoading={isSubmitting}>
-							Create post
-						</Button>
+						<Flex>
+							<Button
+								mt={4}
+								ml="auto"
+								color="white"
+								bgColor={
+									colorMode === 'light' ? 'blue' : 'lightBlue'
+								}
+								_hover={{
+									bgColor:
+										colorMode === 'light'
+											? 'lightBlue'
+											: 'blue',
+								}}
+								type="submit"
+								isLoading={isSubmitting}
+							>
+								Create post
+							</Button>
+						</Flex>
 					</Form>
 				)}
 			</Formik>
