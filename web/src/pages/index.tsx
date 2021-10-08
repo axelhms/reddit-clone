@@ -2,13 +2,18 @@ import { withUrqlClient } from 'next-urql';
 import React, { useState } from 'react';
 import { createUrqlClient } from '../../utils/createUrqlClient';
 import Layout from '../components/Layout';
-import { useDeletePostMutation, usePostsQuery } from '../generated/graphql';
+import {
+	useDeletePostMutation,
+	useMeQuery,
+	usePostsQuery,
+} from '../generated/graphql';
 import NextLink from 'next/link';
 import { Box, Flex, Heading, Link, Stack, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useColorMode } from '@chakra-ui/react';
 import UpvoteSection from '../components/UpvoteSection';
+import { isServer } from '../../utils/isServer';
 
 const Index = () => {
 	const [variables, setVariables] = useState({
@@ -22,6 +27,7 @@ const Index = () => {
 		},
 	});
 
+	const [meData, meFetching] = useMeQuery({ pause: isServer() });
 	const [, deletePost] = useDeletePostMutation();
 
 	const { colorMode } = useColorMode();
@@ -91,15 +97,18 @@ const Index = () => {
 											</Text>
 										</Link>
 									</NextLink>
-									<Flex justifyContent="end">
-										<Button
-											onClick={() => {
-												deletePost({ id: post.id });
-											}}
-										>
-											<DeleteIcon />
-										</Button>
-									</Flex>
+									{meData.data?.me?.username ===
+									post.creator.username ? (
+										<Flex justifyContent="end">
+											<Button
+												onClick={() => {
+													deletePost({ id: post.id });
+												}}
+											>
+												<DeleteIcon />
+											</Button>
+										</Flex>
+									) : null}
 								</Box>
 							</Flex>
 						)
