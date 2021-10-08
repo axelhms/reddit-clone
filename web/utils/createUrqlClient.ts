@@ -8,6 +8,7 @@ import {
 import { cacheExchange, Resolver } from '@urql/exchange-graphcache';
 import { pipe, tap } from 'wonka';
 import {
+	DeletePostMutationVariables,
 	LoginMutation,
 	LogoutMutation,
 	MeDocument,
@@ -204,6 +205,13 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
 									}
 								);
 							}
+						},
+
+						deletePost: (_result, args, cache, _info) => {
+							cache.invalidate({
+								__typename: 'Post',
+								id: (args as DeletePostMutationVariables).id,
+							});
 						},
 					},
 				},

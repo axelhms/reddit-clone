@@ -2,11 +2,11 @@ import { withUrqlClient } from 'next-urql';
 import React, { useState } from 'react';
 import { createUrqlClient } from '../../utils/createUrqlClient';
 import Layout from '../components/Layout';
-import { usePostsQuery } from '../generated/graphql';
+import { useDeletePostMutation, usePostsQuery } from '../generated/graphql';
 import NextLink from 'next/link';
 import { Box, Flex, Heading, Link, Stack, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useColorMode } from '@chakra-ui/react';
 import UpvoteSection from '../components/UpvoteSection';
 
@@ -21,6 +21,8 @@ const Index = () => {
 			limit: 15,
 		},
 	});
+
+	const [, deletePost] = useDeletePostMutation();
 
 	const { colorMode } = useColorMode();
 
@@ -53,39 +55,55 @@ const Index = () => {
 				<Box mt={4}>Loading...</Box>
 			) : (
 				<Stack mt={4} spacing={4}>
-					{data!.posts.posts.map((post) => (
-						<Flex
-							key={post.id}
-							p={5}
-							borderRadius="xl"
-							shadow={colorMode === 'light' ? 'md' : 'none'}
-							bgColor={
-								colorMode === 'light' ? 'white' : 'darkItem'
-							}
-							transitionDuration="0.3s"
-							_hover={{
-								transform: 'translate(0, -5px);',
-							}}
-						>
-							<UpvoteSection post={post} />
-							<Box w="100%">
-								<NextLink
-									href="/post/[id]"
-									as={`/post/${post.id}`}
-								>
-									<Link style={{ textDecoration: 'none' }}>
-										<Heading fontSize="xl">
-											{post.title}
-										</Heading>
-										<Text>
-											posted by {post.creator.username}
-										</Text>
-										<Text mt={4}>{post.textSnippet}</Text>
-									</Link>
-								</NextLink>
-							</Box>
-						</Flex>
-					))}
+					{data!.posts.posts.map((post) =>
+						!post ? null : (
+							<Flex
+								key={post.id}
+								p={5}
+								borderRadius="xl"
+								shadow={colorMode === 'light' ? 'md' : 'none'}
+								bgColor={
+									colorMode === 'light' ? 'white' : 'darkItem'
+								}
+								transitionDuration="0.3s"
+								_hover={{
+									transform: 'translate(0, -5px);',
+								}}
+							>
+								<UpvoteSection post={post} />
+								<Box w="100%">
+									<NextLink
+										href="/post/[id]"
+										as={`/post/${post.id}`}
+									>
+										<Link
+											style={{ textDecoration: 'none' }}
+										>
+											<Heading fontSize="xl">
+												{post.title}
+											</Heading>
+											<Text>
+												posted by{' '}
+												{post.creator.username}
+											</Text>
+											<Text mt={4}>
+												{post.textSnippet}
+											</Text>
+										</Link>
+									</NextLink>
+									<Flex justifyContent="end">
+										<Button
+											onClick={() => {
+												deletePost({ id: post.id });
+											}}
+										>
+											<DeleteIcon />
+										</Button>
+									</Flex>
+								</Box>
+							</Flex>
+						)
+					)}
 				</Stack>
 			)}
 
