@@ -4,6 +4,7 @@ import { withUrqlClient } from 'next-urql';
 import React from 'react';
 import { createUrqlClient } from '../../../utils/createUrqlClient';
 import { useGetPostFromURL } from '../../../utils/useGetPostFromURL';
+import EditDeletePostButtons from '../../components/EditDeletePostButtons';
 import Layout from '../../components/Layout';
 import UpvoteSection from '../../components/UpvoteSection';
 
@@ -46,10 +47,14 @@ export const Post = ({}) => {
 				bgColor={colorMode === 'light' ? 'white' : 'darkItem'}
 			>
 				<UpvoteSection post={data.post} />
-				<Box>
+				<Box w="100%">
 					<Heading fontSize="xl">{data.post.title}</Heading>
 					<Text>posted by {data.post.creator.username}</Text>
 					<Text mt={4}>{data.post.text}</Text>
+					<EditDeletePostButtons
+						id={data.post.id}
+						creatorId={data.post.creator.id}
+					/>
 				</Box>
 			</Flex>
 		</Layout>

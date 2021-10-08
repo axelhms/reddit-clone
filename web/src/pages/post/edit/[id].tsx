@@ -60,7 +60,7 @@ export const EditPost = ({}) => {
 					// 	router.push('/');
 					// }
 					await updatePost({ id: intId, ...values });
-					router.push('/');
+					router.back();
 				}}
 			>
 				{({ isSubmitting }) => (
