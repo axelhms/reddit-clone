@@ -1,6 +1,8 @@
 import { extendTheme } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
 
+// https://chakra-ui.com/docs/theming/customize-theme#customizing-single-components
+
 const colors = {
 	white: 'white',
 	grey: '#f2f2f2',

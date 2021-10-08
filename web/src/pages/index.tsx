@@ -68,11 +68,19 @@ const Index = () => {
 							}}
 						>
 							<UpvoteSection post={post} />
-							<Box>
-								<Heading fontSize="xl">{post.title}</Heading>
-								<Text>posted by {post.creator.username}</Text>
-								<Text mt={4}>{post.textSnippet}</Text>
-							</Box>
+							<NextLink href="/post/[id]" as={`/post/${post.id}`}>
+								<Link style={{ textDecoration: 'none' }}>
+									<Box>
+										<Heading fontSize="xl">
+											{post.title}
+										</Heading>
+										<Text>
+											posted by {post.creator.username}
+										</Text>
+										<Text mt={4}>{post.textSnippet}</Text>
+									</Box>
+								</Link>
+							</NextLink>
 						</Flex>
 					))}
 				</Stack>
@@ -94,10 +102,10 @@ const Index = () => {
 						borderColor={
 							colorMode === 'light' ? 'blue' : 'lightBlue'
 						}
-						bgColor={colorMode === 'light' ? 'white' : 'darkItem'}
+						bgColor={colorMode === 'light' ? 'white' : 'dark'}
 						_hover={{
 							bgColor:
-								colorMode === 'light' ? 'grey' : 'lightDark',
+								colorMode === 'light' ? 'grey' : 'darkItem',
 						}}
 						isLoading={fetching}
 						m="auto"
