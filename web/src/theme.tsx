@@ -13,6 +13,66 @@ const colors = {
 	lightBlue: '#546eff',
 };
 
+const primaryButton = {
+	color: 'white',
+};
+
+const secondaryButton = {
+	border: '2px',
+};
+
+const components = {
+	Button: {
+		variants: {
+			lightPrimaryButton: {
+				...primaryButton,
+				bgColor: 'blue',
+				_hover: {
+					bgColor: 'lightBlue',
+				},
+			},
+
+			darkPrimaryButton: {
+				...primaryButton,
+				bgColor: 'lightBlue',
+				_hover: {
+					bgColor: 'blue',
+				},
+			},
+
+			lightSecondaryButton: {
+				...secondaryButton,
+				color: 'blue',
+				borderColor: 'blue',
+				bgColor: 'white',
+				_hover: {
+					bgColor: 'grey',
+				},
+			},
+
+			darkSecondaryButton: {
+				...secondaryButton,
+				color: 'lightBlue',
+				borderColor: 'lightBlue',
+				bgColor: 'dark',
+				_hover: {
+					bgColor: 'darkItem',
+				},
+			},
+
+			darkNavbarSecondaryButton: {
+				...secondaryButton,
+				color: 'lightBlue',
+				borderColor: 'lightBlue',
+				bgColor: 'darkItem',
+				_hover: {
+					bgColor: 'lightDark',
+				},
+			},
+		},
+	},
+};
+
 const fonts = {
 	heading: 'Open Sans',
 	body: 'Raleway',
@@ -27,6 +87,7 @@ const breakpoints = createBreakpoints({
 
 const theme = extendTheme({
 	colors,
+	components,
 	fonts,
 	breakpoints,
 	icons: {

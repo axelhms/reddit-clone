@@ -26,13 +26,11 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 		body = (
 			<>
 				<Button
-					color={colorMode === 'light' ? 'blue' : 'lightBlue'}
-					border="2px"
-					borderColor={colorMode === 'light' ? 'blue' : 'lightBlue'}
-					bgColor={colorMode === 'light' ? 'white' : 'darkItem'}
-					_hover={{
-						bgColor: colorMode === 'light' ? 'grey' : 'lightDark',
-					}}
+					variant={
+						colorMode === 'light'
+							? 'lightSecondaryButton'
+							: 'darkNavbarSecondaryButton'
+					}
 				>
 					<NextLink href="/login">
 						<Link style={{ textDecoration: 'none' }}>Login</Link>
@@ -40,11 +38,11 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 				</Button>
 				<Button
 					ml={4}
-					color="white"
-					bgColor={colorMode === 'light' ? 'blue' : 'lightBlue'}
-					_hover={{
-						bgColor: colorMode === 'light' ? 'lightBlue' : 'blue',
-					}}
+					variant={
+						colorMode === 'light'
+							? 'lightPrimaryButton'
+							: 'darkPrimaryButton'
+					}
 				>
 					<NextLink href="/register">
 						<Link style={{ textDecoration: 'none' }}>Register</Link>
@@ -59,18 +57,16 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 					{data.me.username}
 				</Box>
 				<Button
-					color={colorMode === 'light' ? 'blue' : 'lightBlue'}
-					border="2px"
-					borderColor={colorMode === 'light' ? 'blue' : 'lightBlue'}
-					bgColor={colorMode === 'light' ? 'white' : 'darkItem'}
-					_hover={{
-						bgColor: colorMode === 'light' ? 'grey' : 'lightDark',
-					}}
 					onClick={() => {
 						logout();
 					}}
 					isLoading={logoutFetching}
 					ml={4}
+					variant={
+						colorMode === 'light'
+							? 'lightSecondaryButton'
+							: 'darkNavbarSecondaryButton'
+					}
 				>
 					Logout
 				</Button>

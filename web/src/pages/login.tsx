@@ -65,20 +65,13 @@ const Login: React.FC<loginProps> = ({}) => {
 								<Button
 									mt={4}
 									ml="auto"
-									color="white"
-									bgColor={
-										colorMode === 'light'
-											? 'blue'
-											: 'lightBlue'
-									}
-									_hover={{
-										bgColor:
-											colorMode === 'light'
-												? 'lightBlue'
-												: 'blue',
-									}}
 									type="submit"
 									isLoading={isSubmitting}
+									variant={
+										colorMode === 'light'
+											? 'lightPrimaryButton'
+											: 'darkPrimaryButton'
+									}
 								>
 									Login
 								</Button>

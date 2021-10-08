@@ -55,10 +55,6 @@ export const EditPost = ({}) => {
 			<Formik
 				initialValues={{ title: data.post.title, text: data.post.text }}
 				onSubmit={async (values) => {
-					// const { error } = await createPost({ input: values });
-					// if (!error) {
-					// 	router.push('/');
-					// }
 					await updatePost({ id: intId, ...values });
 					router.back();
 				}}
@@ -82,18 +78,13 @@ export const EditPost = ({}) => {
 							<Button
 								mt={4}
 								ml="auto"
-								color="white"
-								bgColor={
-									colorMode === 'light' ? 'blue' : 'lightBlue'
-								}
-								_hover={{
-									bgColor:
-										colorMode === 'light'
-											? 'lightBlue'
-											: 'blue',
-								}}
 								type="submit"
 								isLoading={isSubmitting}
+								variant={
+									colorMode === 'light'
+										? 'lightPrimaryButton'
+										: 'darkPrimaryButton'
+								}
 							>
 								Update post
 							</Button>

@@ -11,11 +11,13 @@ import InputField from '../../components/InputField';
 import Wrapper from '../../components/Wrapper';
 import { useChangePasswordMutation } from '../../generated/graphql';
 import NextLink from 'next/link';
+import { useColorMode } from '@chakra-ui/react';
 
 export const ChangePassword: NextPage = () => {
 	const router = useRouter();
 	const [, changePassword] = useChangePasswordMutation();
 	const [tokenError, setTokenError] = useState('');
+	const { colorMode } = useColorMode();
 
 	return (
 		<Wrapper variant="small">
@@ -67,7 +69,11 @@ export const ChangePassword: NextPage = () => {
 							mt={4}
 							type="submit"
 							isLoading={isSubmitting}
-							colorScheme="teal"
+							variant={
+								colorMode === 'light'
+									? 'lightPrimaryButton'
+									: 'darkPrimaryButton'
+							}
 						>
 							Change password
 						</Button>

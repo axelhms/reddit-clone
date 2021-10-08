@@ -35,12 +35,11 @@ const Index = () => {
 				<NextLink href="create-post">
 					<Button
 						ml="auto"
-						color="white"
-						bgColor={colorMode === 'light' ? 'blue' : 'lightBlue'}
-						_hover={{
-							bgColor:
-								colorMode === 'light' ? 'lightBlue' : 'blue',
-						}}
+						variant={
+							colorMode === 'light'
+								? 'lightPrimaryButton'
+								: 'darkPrimaryButton'
+						}
 					>
 						<AddIcon />
 						<Link ml={2} style={{ textDecoration: 'none' }}>
@@ -112,19 +111,14 @@ const Index = () => {
 								].createdAt,
 							});
 						}}
-						color={colorMode === 'light' ? 'blue' : 'lightBlue'}
-						border="2px"
-						borderColor={
-							colorMode === 'light' ? 'blue' : 'lightBlue'
-						}
-						bgColor={colorMode === 'light' ? 'white' : 'dark'}
-						_hover={{
-							bgColor:
-								colorMode === 'light' ? 'grey' : 'darkItem',
-						}}
 						isLoading={fetching}
 						m="auto"
 						my={4}
+						variant={
+							colorMode === 'light'
+								? 'lightSecondaryButton'
+								: 'darkSecondaryButton'
+						}
 					>
 						Load more
 					</Button>

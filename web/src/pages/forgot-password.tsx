@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, useColorMode } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { withUrqlClient } from 'next-urql';
 import React from 'react';
@@ -11,6 +11,7 @@ import { useState } from 'react';
 const ForgotPassword: React.FC<{}> = ({}) => {
 	const [complete, setComplete] = useState(false);
 	const [, forgotPassword] = useForgotPasswordMutation();
+	const { colorMode } = useColorMode();
 
 	return (
 		<Wrapper variant="small">
@@ -40,7 +41,11 @@ const ForgotPassword: React.FC<{}> = ({}) => {
 								mt={4}
 								type="submit"
 								isLoading={isSubmitting}
-								colorScheme="teal"
+								variant={
+									colorMode === 'light'
+										? 'lightPrimaryButton'
+										: 'darkPrimaryButton'
+								}
 							>
 								Send email
 							</Button>
