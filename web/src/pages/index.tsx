@@ -68,9 +68,12 @@ const Index = () => {
 							}}
 						>
 							<UpvoteSection post={post} />
-							<NextLink href="/post/[id]" as={`/post/${post.id}`}>
-								<Link style={{ textDecoration: 'none' }}>
-									<Box>
+							<Box w="100%">
+								<NextLink
+									href="/post/[id]"
+									as={`/post/${post.id}`}
+								>
+									<Link style={{ textDecoration: 'none' }}>
 										<Heading fontSize="xl">
 											{post.title}
 										</Heading>
@@ -78,9 +81,9 @@ const Index = () => {
 											posted by {post.creator.username}
 										</Text>
 										<Text mt={4}>{post.textSnippet}</Text>
-									</Box>
-								</Link>
-							</NextLink>
+									</Link>
+								</NextLink>
+							</Box>
 						</Flex>
 					))}
 				</Stack>
