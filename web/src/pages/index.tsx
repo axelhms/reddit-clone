@@ -10,7 +10,7 @@ import {
 import NextLink from 'next/link';
 import { Box, Flex, Heading, Link, Stack, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
-import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { useColorMode } from '@chakra-ui/react';
 import UpvoteSection from '../components/UpvoteSection';
 import { isServer } from '../../utils/isServer';
@@ -27,13 +27,13 @@ const Index = () => {
 		},
 	});
 
-	const [meData, meFetching] = useMeQuery({ pause: isServer() });
+	const [{ data: meData }] = useMeQuery({ pause: isServer() });
 	const [, deletePost] = useDeletePostMutation();
 
 	const { colorMode } = useColorMode();
 
 	if (!fetching && !data) {
-		return <div>Query failed.</div>;
+		return <Box>Query failed.</Box>;
 	}
 
 	return (
@@ -97,10 +97,19 @@ const Index = () => {
 											</Text>
 										</Link>
 									</NextLink>
-									{meData.data?.me?.username ===
+									{meData?.me?.username ===
 									post.creator.username ? (
 										<Flex justifyContent="end">
+											<NextLink
+												href="/post/edit/[id]"
+												as={`/post/edit/${post.id}`}
+											>
+												<Button as={Link}>
+													<EditIcon />
+												</Button>
+											</NextLink>
 											<Button
+												ml={4}
 												onClick={() => {
 													deletePost({ id: post.id });
 												}}
