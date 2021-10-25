@@ -17,7 +17,7 @@ const Index = () => {
 		cursor: null as null | string,
 	});
 
-	const [{ data, fetching }] = usePostsQuery({
+	const [{ data, error, fetching }] = usePostsQuery({
 		variables: {
 			limit: 15,
 		},
@@ -26,7 +26,12 @@ const Index = () => {
 	const { colorMode } = useColorMode();
 
 	if (!fetching && !data) {
-		return <Box>Query failed.</Box>;
+		return (
+			<Box>
+				<Box>Query failed.</Box>
+				<Box>{error?.message}</Box>
+			</Box>
+		);
 	}
 
 	return (
