@@ -5,7 +5,7 @@ import {
 	stringifyVariables,
 	gql,
 } from '@urql/core';
-import { cacheExchange, Resolver } from '@urql/exchange-graphcache';
+import { cacheExchange, Resolver, Cache } from '@urql/exchange-graphcache';
 import { pipe, tap } from 'wonka';
 import {
 	DeletePostMutationVariables,
@@ -27,6 +27,15 @@ export interface PaginationParams {
 	limitArgument?: string;
 	mergeMode?: MergeMode;
 }
+
+const invalidateAllPosts = (cache: Cache) => {
+	const allFields = cache.inspectFields('Query');
+	const fieldInfos = allFields.filter((info) => info.fieldName === 'posts');
+
+	fieldInfos.forEach((fi) => {
+		cache.invalidate('Query', 'posts', fi.arguments || {});
+	});
+};
 
 const cursorPagination = (): Resolver => {
 	return (_parent, fieldArgs, cache, info) => {
@@ -125,6 +134,8 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
 									}
 								}
 							);
+
+							invalidateAllPosts(cache);
 						},
 
 						register: (_result, _args, cache, _info) => {
@@ -154,18 +165,7 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
 						},
 
 						createPost: (_result, _args, cache, _info) => {
-							const allFields = cache.inspectFields('Query');
-							const fieldInfos = allFields.filter(
-								(info) => info.fieldName === 'posts'
-							);
-
-							fieldInfos.forEach((fi) => {
-								cache.invalidate(
-									'Query',
-									'posts',
-									fi.arguments || {}
-								);
-							});
+							invalidateAllPosts(cache);
 						},
 
 						vote: (_result, args, cache, _info) => {

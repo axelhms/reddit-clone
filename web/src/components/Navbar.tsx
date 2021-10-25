@@ -11,10 +11,12 @@ import NextLink from 'next/link';
 import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 import { isServer } from '../../utils/isServer';
 import { SunIcon, MoonIcon } from '@chakra-ui/icons';
+import { useRouter } from 'next/router';
 
 interface NavbarProps {}
 
 export const Navbar: React.FC<NavbarProps> = ({}) => {
+	const router = useRouter();
 	const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
 	const [{ data, fetching }] = useMeQuery({ pause: isServer() });
 	const { colorMode, toggleColorMode } = useColorMode();
@@ -57,8 +59,9 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 					{data.me.username}
 				</Box>
 				<Button
-					onClick={() => {
-						logout();
+					onClick={async () => {
+						await logout();
+						router.reload();
 					}}
 					isLoading={logoutFetching}
 					ml={4}
